@@ -16,3 +16,6 @@ frontend/dist/
 # Local
 *.log
 .env
+e2e-out/
+test-results/
+playwright-report/
