@@ -1,0 +1,2672 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "WICK",
+  "version": "0.1.0"
+ },
+ "paths": {
+  "/api/v1/health": {
+   "get": {
+    "tags": [
+     "health"
+    ],
+    "summary": "Health",
+    "operationId": "health_api_v1_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Health"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/data/catalog": {
+   "get": {
+    "tags": [
+     "data"
+    ],
+    "summary": "Get Catalog",
+    "operationId": "get_catalog_api_v1_data_catalog_get",
+    "parameters": [
+     {
+      "name": "q",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "default": "",
+       "title": "Q"
+      }
+     },
+     {
+      "name": "refresh",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Refresh"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "default": 50,
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CatalogOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/data/download": {
+   "post": {
+    "tags": [
+     "data"
+    ],
+    "summary": "Post Download",
+    "operationId": "post_download_api_v1_data_download_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DownloadIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/JobStarted"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/data/datasets": {
+   "get": {
+    "tags": [
+     "data"
+    ],
+    "summary": "Get Datasets",
+    "operationId": "get_datasets_api_v1_data_datasets_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/DatasetOut"
+         },
+         "type": "array",
+         "title": "Response Get Datasets Api V1 Data Datasets Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/jobs/{job_id}": {
+   "get": {
+    "tags": [
+     "jobs"
+    ],
+    "summary": "Get Job",
+    "operationId": "get_job_api_v1_jobs__job_id__get",
+    "parameters": [
+     {
+      "name": "job_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Job Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/JobOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/jobs/{job_id}/events": {
+   "get": {
+    "tags": [
+     "jobs"
+    ],
+    "summary": "Job Events",
+    "description": "SSE de progreso: un evento por cambio; el último tiene status done o error.",
+    "operationId": "job_events_api_v1_jobs__job_id__events_get",
+    "parameters": [
+     {
+      "name": "job_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Job Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/templates": {
+   "get": {
+    "tags": [
+     "strategies"
+    ],
+    "summary": "Get Templates",
+    "operationId": "get_templates_api_v1_templates_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/TemplateOut"
+         },
+         "type": "array",
+         "title": "Response Get Templates Api V1 Templates Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/strategies": {
+   "get": {
+    "tags": [
+     "strategies"
+    ],
+    "summary": "Get Strategies",
+    "operationId": "get_strategies_api_v1_strategies_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/StrategyOut"
+         },
+         "type": "array",
+         "title": "Response Get Strategies Api V1 Strategies Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "strategies"
+    ],
+    "summary": "Post Strategy",
+    "operationId": "post_strategy_api_v1_strategies_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/StrategyIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/StrategyOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/strategies/{strategy_id}": {
+   "delete": {
+    "tags": [
+     "strategies"
+    ],
+    "summary": "Delete Strategy",
+    "operationId": "delete_strategy_api_v1_strategies__strategy_id__delete",
+    "parameters": [
+     {
+      "name": "strategy_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Strategy Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "additionalProperties": {
+          "type": "boolean"
+         },
+         "title": "Response Delete Strategy Api V1 Strategies  Strategy Id  Delete"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/backtests/preview": {
+   "post": {
+    "tags": [
+     "backtests"
+    ],
+    "summary": "Post Preview",
+    "operationId": "post_preview_api_v1_backtests_preview_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/StrategyConfig"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PreviewOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/backtests": {
+   "get": {
+    "tags": [
+     "backtests"
+    ],
+    "summary": "Get Backtests",
+    "operationId": "get_backtests_api_v1_backtests_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/BacktestSummary"
+         },
+         "type": "array",
+         "title": "Response Get Backtests Api V1 Backtests Get"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "backtests"
+    ],
+    "summary": "Post Backtest",
+    "operationId": "post_backtest_api_v1_backtests_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/BacktestIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/JobStarted"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/backtests/{bt_id}": {
+   "get": {
+    "tags": [
+     "backtests"
+    ],
+    "summary": "Get Backtest",
+    "operationId": "get_backtest_api_v1_backtests__bt_id__get",
+    "parameters": [
+     {
+      "name": "bt_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Bt Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/BacktestDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/backtests/{bt_id}/variants": {
+   "get": {
+    "tags": [
+     "backtests"
+    ],
+    "summary": "Get Variants",
+    "operationId": "get_variants_api_v1_backtests__bt_id__variants_get",
+    "parameters": [
+     {
+      "name": "bt_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Bt Id"
+      }
+     },
+     {
+      "name": "sort",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "default": "total_return",
+       "title": "Sort"
+      }
+     },
+     {
+      "name": "desc",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": true,
+       "title": "Desc"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/VariantRow"
+         },
+         "title": "Response Get Variants Api V1 Backtests  Bt Id  Variants Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/backtests/{bt_id}/variants/{variant_id}": {
+   "get": {
+    "tags": [
+     "backtests"
+    ],
+    "summary": "Get Variant",
+    "operationId": "get_variant_api_v1_backtests__bt_id__variants__variant_id__get",
+    "parameters": [
+     {
+      "name": "bt_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Bt Id"
+      }
+     },
+     {
+      "name": "variant_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Variant Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/VariantDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/bot/status": {
+   "get": {
+    "tags": [
+     "bot"
+    ],
+    "summary": "Bot Status",
+    "operationId": "bot_status_api_v1_bot_status_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/BotStatus"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/bot/chat": {
+   "post": {
+    "tags": [
+     "bot"
+    ],
+    "summary": "Bot Chat",
+    "operationId": "bot_chat_api_v1_bot_chat_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/BotChatIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/BotChatOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/settings/api-key": {
+   "put": {
+    "tags": [
+     "bot"
+    ],
+    "summary": "Put Api Key",
+    "operationId": "put_api_key_api_v1_settings_api_key_put",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ApiKeyIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": {
+          "type": "boolean"
+         },
+         "type": "object",
+         "title": "Response Put Api Key Api V1 Settings Api Key Put"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "delete": {
+    "tags": [
+     "bot"
+    ],
+    "summary": "Delete Api Key",
+    "operationId": "delete_api_key_api_v1_settings_api_key_delete",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": {
+          "type": "boolean"
+         },
+         "type": "object",
+         "title": "Response Delete Api Key Api V1 Settings Api Key Delete"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/settings/bot-model": {
+   "put": {
+    "tags": [
+     "bot"
+    ],
+    "summary": "Put Model",
+    "operationId": "put_model_api_v1_settings_bot_model_put",
+    "parameters": [
+     {
+      "name": "model",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Model"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "additionalProperties": {
+          "type": "boolean"
+         },
+         "title": "Response Put Model Api V1 Settings Bot Model Put"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "ApiKeyIn": {
+    "properties": {
+     "api_key": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 10,
+      "title": "Api Key"
+     }
+    },
+    "type": "object",
+    "required": [
+     "api_key"
+    ],
+    "title": "ApiKeyIn"
+   },
+   "AxisOut": {
+    "properties": {
+     "label": {
+      "type": "string",
+      "title": "Label"
+     },
+     "values": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Values"
+     }
+    },
+    "type": "object",
+    "required": [
+     "label",
+     "values"
+    ],
+    "title": "AxisOut"
+   },
+   "BacktestDetail": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "strategy_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Strategy Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "symbol": {
+      "type": "string",
+      "title": "Symbol"
+     },
+     "timeframe": {
+      "type": "string",
+      "title": "Timeframe"
+     },
+     "range_from": {
+      "type": "string",
+      "title": "Range From"
+     },
+     "range_to": {
+      "type": "string",
+      "title": "Range To"
+     },
+     "n_variants": {
+      "type": "integer",
+      "title": "N Variants"
+     },
+     "n_discarded": {
+      "type": "integer",
+      "title": "N Discarded"
+     },
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     },
+     "created_at": {
+      "type": "string",
+      "title": "Created At"
+     },
+     "duration_s": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Duration S"
+     },
+     "best_return": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Best Return"
+     },
+     "engine_version": {
+      "type": "string",
+      "title": "Engine Version"
+     },
+     "config": {
+      "$ref": "#/components/schemas/StrategyConfig"
+     },
+     "data_info": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data Info"
+     },
+     "best_variant_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Best Variant Id"
+     },
+     "warnings": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Warnings"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "strategy_id",
+     "name",
+     "symbol",
+     "timeframe",
+     "range_from",
+     "range_to",
+     "n_variants",
+     "n_discarded",
+     "status",
+     "error",
+     "created_at",
+     "duration_s",
+     "best_return",
+     "engine_version",
+     "config",
+     "data_info",
+     "best_variant_id",
+     "warnings"
+    ],
+    "title": "BacktestDetail"
+   },
+   "BacktestIn": {
+    "properties": {
+     "config": {
+      "$ref": "#/components/schemas/StrategyConfig"
+     },
+     "strategy_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Strategy Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "config"
+    ],
+    "title": "BacktestIn"
+   },
+   "BacktestSummary": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "strategy_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Strategy Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "symbol": {
+      "type": "string",
+      "title": "Symbol"
+     },
+     "timeframe": {
+      "type": "string",
+      "title": "Timeframe"
+     },
+     "range_from": {
+      "type": "string",
+      "title": "Range From"
+     },
+     "range_to": {
+      "type": "string",
+      "title": "Range To"
+     },
+     "n_variants": {
+      "type": "integer",
+      "title": "N Variants"
+     },
+     "n_discarded": {
+      "type": "integer",
+      "title": "N Discarded"
+     },
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     },
+     "created_at": {
+      "type": "string",
+      "title": "Created At"
+     },
+     "duration_s": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Duration S"
+     },
+     "best_return": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Best Return"
+     },
+     "engine_version": {
+      "type": "string",
+      "title": "Engine Version"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "strategy_id",
+     "name",
+     "symbol",
+     "timeframe",
+     "range_from",
+     "range_to",
+     "n_variants",
+     "n_discarded",
+     "status",
+     "error",
+     "created_at",
+     "duration_s",
+     "best_return",
+     "engine_version"
+    ],
+    "title": "BacktestSummary"
+   },
+   "BotChatIn": {
+    "properties": {
+     "messages": {
+      "items": {
+       "$ref": "#/components/schemas/BotMessage"
+      },
+      "type": "array",
+      "title": "Messages"
+     }
+    },
+    "type": "object",
+    "required": [
+     "messages"
+    ],
+    "title": "BotChatIn"
+   },
+   "BotChatOut": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "title": "Text"
+     },
+     "tool_calls": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Tool Calls"
+     }
+    },
+    "type": "object",
+    "required": [
+     "text",
+     "tool_calls"
+    ],
+    "title": "BotChatOut"
+   },
+   "BotMessage": {
+    "properties": {
+     "role": {
+      "type": "string",
+      "title": "Role"
+     },
+     "text": {
+      "type": "string",
+      "title": "Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "role",
+     "text"
+    ],
+    "title": "BotMessage"
+   },
+   "BotStatus": {
+    "properties": {
+     "configured": {
+      "type": "boolean",
+      "title": "Configured"
+     },
+     "model": {
+      "type": "string",
+      "title": "Model"
+     },
+     "available": {
+      "type": "boolean",
+      "title": "Available"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     }
+    },
+    "type": "object",
+    "required": [
+     "configured",
+     "model",
+     "available",
+     "message"
+    ],
+    "title": "BotStatus"
+   },
+   "CandlesOut": {
+    "properties": {
+     "ts": {
+      "items": {
+       "type": "integer"
+      },
+      "type": "array",
+      "title": "Ts"
+     },
+     "open": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Open"
+     },
+     "high": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "High"
+     },
+     "low": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Low"
+     },
+     "close": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Close"
+     },
+     "truncated": {
+      "type": "boolean",
+      "title": "Truncated"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ts",
+     "open",
+     "high",
+     "low",
+     "close",
+     "truncated"
+    ],
+    "title": "CandlesOut"
+   },
+   "CatalogOut": {
+    "properties": {
+     "fetched_at": {
+      "type": "integer",
+      "title": "Fetched At"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "symbols": {
+      "items": {
+       "$ref": "#/components/schemas/SymbolOut"
+      },
+      "type": "array",
+      "title": "Symbols"
+     }
+    },
+    "type": "object",
+    "required": [
+     "fetched_at",
+     "total",
+     "symbols"
+    ],
+    "title": "CatalogOut"
+   },
+   "Condition": {
+    "properties": {
+     "left": {
+      "type": "string",
+      "title": "Left"
+     },
+     "op": {
+      "type": "string",
+      "enum": [
+       "crosses_above",
+       "crosses_below",
+       ">",
+       "<"
+      ],
+      "title": "Op"
+     },
+     "right": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "$ref": "#/components/schemas/NumberOperand"
+       }
+      ],
+      "title": "Right"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "left",
+     "op",
+     "right"
+    ],
+    "title": "Condition"
+   },
+   "CostsSpec": {
+    "properties": {
+     "taker": {
+      "type": "number",
+      "maximum": 0.05,
+      "minimum": 0.0,
+      "title": "Taker",
+      "default": 0.001
+     },
+     "slippage": {
+      "type": "number",
+      "maximum": 0.05,
+      "minimum": 0.0,
+      "title": "Slippage",
+      "default": 0.0005
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "CostsSpec"
+   },
+   "DatasetOut": {
+    "properties": {
+     "symbol": {
+      "type": "string",
+      "title": "Symbol"
+     },
+     "timeframe": {
+      "type": "string",
+      "title": "Timeframe"
+     },
+     "months": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Months"
+     },
+     "incomplete_months": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Incomplete Months"
+     },
+     "rows": {
+      "type": "integer",
+      "title": "Rows"
+     },
+     "bytes": {
+      "type": "integer",
+      "title": "Bytes"
+     },
+     "first_ts": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "First Ts"
+     },
+     "last_ts": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Last Ts"
+     },
+     "gaps": {
+      "items": {
+       "$ref": "#/components/schemas/GapOut"
+      },
+      "type": "array",
+      "title": "Gaps"
+     },
+     "n_gaps": {
+      "type": "integer",
+      "title": "N Gaps"
+     },
+     "missing_candles": {
+      "type": "integer",
+      "title": "Missing Candles"
+     }
+    },
+    "type": "object",
+    "required": [
+     "symbol",
+     "timeframe",
+     "months",
+     "incomplete_months",
+     "rows",
+     "bytes",
+     "first_ts",
+     "last_ts",
+     "gaps",
+     "n_gaps",
+     "missing_candles"
+    ],
+    "title": "DatasetOut"
+   },
+   "DateRange": {
+    "properties": {
+     "from": {
+      "type": "string",
+      "format": "date",
+      "title": "From"
+     },
+     "to": {
+      "type": "string",
+      "format": "date",
+      "title": "To"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "from",
+     "to"
+    ],
+    "title": "DateRange"
+   },
+   "DiscardOut": {
+    "properties": {
+     "reason": {
+      "type": "string",
+      "title": "Reason"
+     },
+     "count": {
+      "type": "integer",
+      "title": "Count"
+     }
+    },
+    "type": "object",
+    "required": [
+     "reason",
+     "count"
+    ],
+    "title": "DiscardOut"
+   },
+   "DownloadIn": {
+    "properties": {
+     "symbol": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{2,30}$",
+      "title": "Symbol"
+     },
+     "timeframe": {
+      "type": "string",
+      "title": "Timeframe"
+     },
+     "from": {
+      "type": "string",
+      "format": "date",
+      "title": "From"
+     },
+     "to": {
+      "type": "string",
+      "format": "date",
+      "title": "To"
+     }
+    },
+    "type": "object",
+    "required": [
+     "symbol",
+     "timeframe",
+     "from",
+     "to"
+    ],
+    "title": "DownloadIn"
+   },
+   "Entry": {
+    "properties": {
+     "long": {
+      "$ref": "#/components/schemas/Rule"
+     },
+     "short": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Rule"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "long"
+    ],
+    "title": "Entry"
+   },
+   "EquityOut": {
+    "properties": {
+     "ts": {
+      "items": {
+       "type": "integer"
+      },
+      "type": "array",
+      "title": "Ts"
+     },
+     "values": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "title": "Values"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ts",
+     "values"
+    ],
+    "title": "EquityOut"
+   },
+   "ExitSpec": {
+    "properties": {
+     "stop": {
+      "$ref": "#/components/schemas/StopSpec"
+     },
+     "take_profit": {
+      "$ref": "#/components/schemas/TakeProfitSpec"
+     },
+     "on_opposite_signal": {
+      "type": "boolean",
+      "title": "On Opposite Signal",
+      "default": false
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "ExitSpec"
+   },
+   "GapOut": {
+    "properties": {
+     "from_ts": {
+      "type": "integer",
+      "title": "From Ts"
+     },
+     "to_ts": {
+      "type": "integer",
+      "title": "To Ts"
+     },
+     "missing": {
+      "type": "integer",
+      "title": "Missing"
+     }
+    },
+    "type": "object",
+    "required": [
+     "from_ts",
+     "to_ts",
+     "missing"
+    ],
+    "title": "GapOut"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "Health": {
+    "properties": {
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "version": {
+      "type": "string",
+      "title": "Version"
+     },
+     "engine_version": {
+      "type": "string",
+      "title": "Engine Version"
+     }
+    },
+    "type": "object",
+    "required": [
+     "status",
+     "version",
+     "engine_version"
+    ],
+    "title": "Health"
+   },
+   "IndicatorSpec": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,31}$",
+      "title": "Id"
+     },
+     "type": {
+      "type": "string",
+      "enum": [
+       "sma",
+       "ema",
+       "rsi",
+       "macd",
+       "bbands",
+       "atr"
+      ],
+      "title": "Type"
+     },
+     "params": {
+      "additionalProperties": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "$ref": "#/components/schemas/ValuesSpec"
+        },
+        {
+         "$ref": "#/components/schemas/RangeSpec"
+        }
+       ]
+      },
+      "type": "object",
+      "title": "Params"
+     },
+     "source": {
+      "type": "string",
+      "enum": [
+       "open",
+       "high",
+       "low",
+       "close"
+      ],
+      "title": "Source",
+      "default": "close"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "type"
+    ],
+    "title": "IndicatorSpec"
+   },
+   "JobOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind"
+     },
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "done": {
+      "type": "integer",
+      "title": "Done"
+     },
+     "total": {
+      "type": "integer",
+      "title": "Total"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     },
+     "result": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Result"
+     },
+     "log": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Log"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "kind",
+     "status",
+     "done",
+     "total",
+     "message",
+     "error",
+     "result",
+     "log"
+    ],
+    "title": "JobOut"
+   },
+   "JobStarted": {
+    "properties": {
+     "job_id": {
+      "type": "string",
+      "title": "Job Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "job_id"
+    ],
+    "title": "JobStarted"
+   },
+   "Metrics": {
+    "properties": {
+     "total_return": {
+      "type": "number",
+      "title": "Total Return"
+     },
+     "final_equity": {
+      "type": "number",
+      "title": "Final Equity"
+     },
+     "max_dd": {
+      "type": "number",
+      "title": "Max Dd"
+     },
+     "win_rate": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Win Rate"
+     },
+     "profit_factor": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Profit Factor"
+     },
+     "profit_factor_infinite": {
+      "type": "boolean",
+      "title": "Profit Factor Infinite"
+     },
+     "n_trades": {
+      "type": "integer",
+      "title": "N Trades"
+     },
+     "n_wins": {
+      "type": "integer",
+      "title": "N Wins"
+     },
+     "n_losses": {
+      "type": "integer",
+      "title": "N Losses"
+     },
+     "sharpe": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sharpe"
+     },
+     "fees_paid": {
+      "type": "number",
+      "title": "Fees Paid"
+     },
+     "n_ambiguous": {
+      "type": "integer",
+      "title": "N Ambiguous"
+     },
+     "n_skipped_min_notional": {
+      "type": "integer",
+      "title": "N Skipped Min Notional"
+     },
+     "buy_hold_return": {
+      "type": "number",
+      "title": "Buy Hold Return"
+     },
+     "exposure": {
+      "type": "number",
+      "title": "Exposure"
+     },
+     "net_pnl": {
+      "type": "number",
+      "title": "Net Pnl"
+     }
+    },
+    "type": "object",
+    "required": [
+     "total_return",
+     "final_equity",
+     "max_dd",
+     "win_rate",
+     "profit_factor",
+     "profit_factor_infinite",
+     "n_trades",
+     "n_wins",
+     "n_losses",
+     "sharpe",
+     "fees_paid",
+     "n_ambiguous",
+     "n_skipped_min_notional",
+     "buy_hold_return",
+     "exposure",
+     "net_pnl"
+    ],
+    "title": "Metrics"
+   },
+   "MonthOut": {
+    "properties": {
+     "month": {
+      "type": "string",
+      "title": "Month"
+     },
+     "return": {
+      "type": "number",
+      "title": "Return"
+     },
+     "start_equity": {
+      "type": "number",
+      "title": "Start Equity"
+     },
+     "end_equity": {
+      "type": "number",
+      "title": "End Equity"
+     },
+     "n_trades": {
+      "type": "integer",
+      "title": "N Trades"
+     },
+     "net_pnl": {
+      "type": "number",
+      "title": "Net Pnl"
+     },
+     "n_wins": {
+      "type": "integer",
+      "title": "N Wins"
+     }
+    },
+    "type": "object",
+    "required": [
+     "month",
+     "return",
+     "start_equity",
+     "end_equity",
+     "n_trades",
+     "net_pnl",
+     "n_wins"
+    ],
+    "title": "MonthOut"
+   },
+   "NumberOperand": {
+    "properties": {
+     "value": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "$ref": "#/components/schemas/ValuesSpec"
+       },
+       {
+        "$ref": "#/components/schemas/RangeSpec"
+       }
+      ],
+      "title": "Value"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "value"
+    ],
+    "title": "NumberOperand"
+   },
+   "OverlayOut": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "values": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Values"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "values"
+    ],
+    "title": "OverlayOut"
+   },
+   "PreviewData": {
+    "properties": {
+     "available": {
+      "type": "boolean",
+      "title": "Available"
+     },
+     "rows": {
+      "type": "integer",
+      "title": "Rows"
+     },
+     "first_ts": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "First Ts"
+     },
+     "last_ts": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Last Ts"
+     },
+     "warnings": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Warnings"
+     }
+    },
+    "type": "object",
+    "required": [
+     "available",
+     "rows",
+     "warnings"
+    ],
+    "title": "PreviewData"
+   },
+   "PreviewOut": {
+    "properties": {
+     "n_total": {
+      "type": "integer",
+      "title": "N Total"
+     },
+     "n_valid": {
+      "type": "integer",
+      "title": "N Valid"
+     },
+     "n_discarded": {
+      "type": "integer",
+      "title": "N Discarded"
+     },
+     "discard_reasons": {
+      "items": {
+       "$ref": "#/components/schemas/DiscardOut"
+      },
+      "type": "array",
+      "title": "Discard Reasons"
+     },
+     "axes": {
+      "items": {
+       "$ref": "#/components/schemas/AxisOut"
+      },
+      "type": "array",
+      "title": "Axes"
+     },
+     "max_variants": {
+      "type": "integer",
+      "title": "Max Variants"
+     },
+     "over_cap": {
+      "type": "boolean",
+      "title": "Over Cap"
+     },
+     "data": {
+      "$ref": "#/components/schemas/PreviewData"
+     }
+    },
+    "type": "object",
+    "required": [
+     "n_total",
+     "n_valid",
+     "n_discarded",
+     "discard_reasons",
+     "axes",
+     "max_variants",
+     "over_cap",
+     "data"
+    ],
+    "title": "PreviewOut"
+   },
+   "RangeSpec": {
+    "properties": {
+     "range": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Range"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "range"
+    ],
+    "title": "RangeSpec"
+   },
+   "Rule": {
+    "properties": {
+     "conditions": {
+      "items": {
+       "$ref": "#/components/schemas/Condition"
+      },
+      "type": "array",
+      "minItems": 1,
+      "title": "Conditions"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "conditions"
+    ],
+    "title": "Rule",
+    "description": "Condiciones combinadas con AND."
+   },
+   "SizingSpec": {
+    "properties": {
+     "mode": {
+      "type": "string",
+      "const": "pct_capital",
+      "title": "Mode",
+      "default": "pct_capital"
+     },
+     "value": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "$ref": "#/components/schemas/ValuesSpec"
+       },
+       {
+        "$ref": "#/components/schemas/RangeSpec"
+       }
+      ],
+      "title": "Value",
+      "default": 100.0
+     },
+     "compound": {
+      "type": "boolean",
+      "title": "Compound",
+      "default": true
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "SizingSpec"
+   },
+   "StopSpec": {
+    "properties": {
+     "type": {
+      "type": "string",
+      "enum": [
+       "none",
+       "pct",
+       "atr"
+      ],
+      "title": "Type",
+      "default": "none"
+     },
+     "pct": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "$ref": "#/components/schemas/ValuesSpec"
+       },
+       {
+        "$ref": "#/components/schemas/RangeSpec"
+       }
+      ],
+      "title": "Pct",
+      "default": 2.0
+     },
+     "atr_length": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "$ref": "#/components/schemas/ValuesSpec"
+       },
+       {
+        "$ref": "#/components/schemas/RangeSpec"
+       }
+      ],
+      "title": "Atr Length",
+      "default": 14
+     },
+     "mult": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "$ref": "#/components/schemas/ValuesSpec"
+       },
+       {
+        "$ref": "#/components/schemas/RangeSpec"
+       }
+      ],
+      "title": "Mult",
+      "default": 2.0
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "StopSpec"
+   },
+   "StrategyConfig": {
+    "properties": {
+     "schema_version": {
+      "type": "integer",
+      "const": 1,
+      "title": "Schema Version",
+      "default": 1
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name"
+     },
+     "market": {
+      "type": "string",
+      "const": "spot",
+      "title": "Market",
+      "default": "spot"
+     },
+     "symbol": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{2,30}$",
+      "title": "Symbol"
+     },
+     "timeframe": {
+      "type": "string",
+      "enum": [
+       "1m",
+       "5m",
+       "15m",
+       "1h",
+       "4h",
+       "1d"
+      ],
+      "title": "Timeframe"
+     },
+     "range": {
+      "$ref": "#/components/schemas/DateRange"
+     },
+     "capital": {
+      "type": "number",
+      "exclusiveMinimum": 0.0,
+      "title": "Capital"
+     },
+     "indicators": {
+      "items": {
+       "$ref": "#/components/schemas/IndicatorSpec"
+      },
+      "type": "array",
+      "title": "Indicators"
+     },
+     "entry": {
+      "$ref": "#/components/schemas/Entry"
+     },
+     "exit": {
+      "$ref": "#/components/schemas/ExitSpec"
+     },
+     "sizing": {
+      "$ref": "#/components/schemas/SizingSpec"
+     },
+     "costs": {
+      "$ref": "#/components/schemas/CostsSpec"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "name",
+     "symbol",
+     "timeframe",
+     "range",
+     "capital",
+     "entry"
+    ],
+    "title": "StrategyConfig"
+   },
+   "StrategyIn": {
+    "properties": {
+     "config": {
+      "$ref": "#/components/schemas/StrategyConfig"
+     },
+     "id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "config"
+    ],
+    "title": "StrategyIn"
+   },
+   "StrategyOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "updated_at": {
+      "type": "string",
+      "title": "Updated At"
+     },
+     "config": {
+      "$ref": "#/components/schemas/StrategyConfig"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "updated_at",
+     "config"
+    ],
+    "title": "StrategyOut"
+   },
+   "SymbolOut": {
+    "properties": {
+     "symbol": {
+      "type": "string",
+      "title": "Symbol"
+     },
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "base_asset": {
+      "type": "string",
+      "title": "Base Asset"
+     },
+     "quote_asset": {
+      "type": "string",
+      "title": "Quote Asset"
+     },
+     "step_size": {
+      "type": "number",
+      "title": "Step Size"
+     },
+     "tick_size": {
+      "type": "number",
+      "title": "Tick Size"
+     },
+     "min_notional": {
+      "type": "number",
+      "title": "Min Notional"
+     }
+    },
+    "type": "object",
+    "required": [
+     "symbol",
+     "status",
+     "base_asset",
+     "quote_asset",
+     "step_size",
+     "tick_size",
+     "min_notional"
+    ],
+    "title": "SymbolOut"
+   },
+   "TakeProfitSpec": {
+    "properties": {
+     "type": {
+      "type": "string",
+      "enum": [
+       "none",
+       "pct",
+       "rr"
+      ],
+      "title": "Type",
+      "default": "none"
+     },
+     "pct": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "$ref": "#/components/schemas/ValuesSpec"
+       },
+       {
+        "$ref": "#/components/schemas/RangeSpec"
+       }
+      ],
+      "title": "Pct",
+      "default": 4.0
+     },
+     "ratio": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "$ref": "#/components/schemas/ValuesSpec"
+       },
+       {
+        "$ref": "#/components/schemas/RangeSpec"
+       }
+      ],
+      "title": "Ratio",
+      "default": 2.0
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "TakeProfitSpec"
+   },
+   "TemplateOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "description": {
+      "type": "string",
+      "title": "Description"
+     },
+     "config": {
+      "$ref": "#/components/schemas/StrategyConfig"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "title",
+     "description",
+     "config"
+    ],
+    "title": "TemplateOut"
+   },
+   "TradeOut": {
+    "properties": {
+     "signal_ts": {
+      "type": "integer",
+      "title": "Signal Ts"
+     },
+     "entry_ts": {
+      "type": "integer",
+      "title": "Entry Ts"
+     },
+     "exit_ts": {
+      "type": "integer",
+      "title": "Exit Ts"
+     },
+     "entry_price": {
+      "type": "number",
+      "title": "Entry Price"
+     },
+     "exit_price": {
+      "type": "number",
+      "title": "Exit Price"
+     },
+     "qty": {
+      "type": "number",
+      "title": "Qty"
+     },
+     "fees": {
+      "type": "number",
+      "title": "Fees"
+     },
+     "pnl_net": {
+      "type": "number",
+      "title": "Pnl Net"
+     },
+     "return_pct": {
+      "type": "number",
+      "title": "Return Pct"
+     },
+     "reason": {
+      "type": "string",
+      "title": "Reason"
+     },
+     "ambiguous": {
+      "type": "boolean",
+      "title": "Ambiguous"
+     }
+    },
+    "type": "object",
+    "required": [
+     "signal_ts",
+     "entry_ts",
+     "exit_ts",
+     "entry_price",
+     "exit_price",
+     "qty",
+     "fees",
+     "pnl_net",
+     "return_pct",
+     "reason",
+     "ambiguous"
+    ],
+    "title": "TradeOut"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   },
+   "ValuesSpec": {
+    "properties": {
+     "values": {
+      "items": {
+       "type": "number"
+      },
+      "type": "array",
+      "minItems": 1,
+      "title": "Values"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "values"
+    ],
+    "title": "ValuesSpec"
+   },
+   "VariantDetail": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "backtest_id": {
+      "type": "string",
+      "title": "Backtest Id"
+     },
+     "params": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Params"
+     },
+     "config": {
+      "$ref": "#/components/schemas/StrategyConfig"
+     },
+     "metrics": {
+      "$ref": "#/components/schemas/Metrics"
+     },
+     "warnings": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Warnings"
+     },
+     "trades": {
+      "items": {
+       "$ref": "#/components/schemas/TradeOut"
+      },
+      "type": "array",
+      "title": "Trades"
+     },
+     "monthly": {
+      "items": {
+       "$ref": "#/components/schemas/MonthOut"
+      },
+      "type": "array",
+      "title": "Monthly"
+     },
+     "equity": {
+      "$ref": "#/components/schemas/EquityOut"
+     },
+     "candles": {
+      "$ref": "#/components/schemas/CandlesOut"
+     },
+     "overlays": {
+      "items": {
+       "$ref": "#/components/schemas/OverlayOut"
+      },
+      "type": "array",
+      "title": "Overlays"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "backtest_id",
+     "params",
+     "config",
+     "metrics",
+     "warnings",
+     "trades",
+     "monthly",
+     "equity",
+     "candles",
+     "overlays"
+    ],
+    "title": "VariantDetail"
+   },
+   "VariantRow": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "idx": {
+      "type": "integer",
+      "title": "Idx"
+     },
+     "params": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Params"
+     },
+     "metrics": {
+      "$ref": "#/components/schemas/Metrics"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "idx",
+     "params",
+     "metrics"
+    ],
+    "title": "VariantRow"
+   }
+  }
+ }
+}

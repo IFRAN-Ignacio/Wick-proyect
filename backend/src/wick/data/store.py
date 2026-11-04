@@ -12,6 +12,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import threading
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -29,6 +30,8 @@ from wick.data.sources.binance import month_bounds_ms
 from wick.data.timeframes import interval_ms
 
 MARKET = "spot"
+# Las descargas escriben meses en paralelo: el manifiesto se actualiza de a uno.
+_manifest_lock = threading.Lock()
 
 
 def binance_dir() -> Path:
@@ -85,6 +88,13 @@ def write_month(symbol: str, timeframe: str, year: int, month: int, data: MonthD
         tmp.unlink(missing_ok=True)
         raise DataError(f"{symbol} {key}: se escribieron {rows_after} filas de {rows_before}.")
     os.replace(tmp, target)
+    with _manifest_lock:
+        _update_manifest(symbol, timeframe, key, data, rows_before)
+
+
+def _update_manifest(
+    symbol: str, timeframe: str, key: str, data: MonthData, rows_before: int
+) -> None:
     manifest = read_manifest(symbol, timeframe)
     manifest[key] = {
         "source": data.source,

@@ -26,11 +26,11 @@ class ValuesSpec(_Strict):
 
 
 class RangeSpec(_Strict):
-    range: tuple[float, float, float]
+    range: list[float] = Field(min_length=3, max_length=3)  # [desde, hasta, paso]
 
     @field_validator("range")
     @classmethod
-    def _check(cls, v: tuple[float, float, float]) -> tuple[float, float, float]:
+    def _check(cls, v: list[float]) -> list[float]:
         a, b, step = v
         if step <= 0:
             raise ValueError("El paso del rango tiene que ser mayor que 0.")
