@@ -1,3 +1,5 @@
+<p align="center"><img src="frontend/public/logo.png" alt="WICK" width="260"></p>
+
 # WICK
 
 Backtester de estrategias de cripto **gratuito, open source (GPL-3.0-or-later) y 100% local** en Windows.
