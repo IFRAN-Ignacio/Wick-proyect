@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+*.nbi
+*.nbc
+
+# Node
+node_modules/
+frontend/dist/
+
+# Local
+*.log
+.env
