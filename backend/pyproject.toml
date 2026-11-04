@@ -33,7 +33,10 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
-ignore = ["RUF001", "RUF002", "RUF003"]  # textos en español con tildes y signos
+ignore = [
+    "RUF001", "RUF002", "RUF003",  # textos en español con tildes y signos
+    "E501",  # el largo lo maneja `ruff format`; quedan solo textos largos
+]
 
 [tool.mypy]
 python_version = "3.12"

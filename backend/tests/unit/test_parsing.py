@@ -52,7 +52,9 @@ def test_csv_con_encabezado_se_detecta() -> None:
 
 
 def test_columnas_de_mas_es_error() -> None:
-    raw = b"\n".join(line + b",extra" for line in _read("BTCUSDT-1h-2024-12.head5.csv").splitlines())
+    raw = b"\n".join(
+        line + b",extra" for line in _read("BTCUSDT-1h-2024-12.head5.csv").splitlines()
+    )
     with pytest.raises(DataError):
         parse_kline_csv(raw, "13 columnas")
 

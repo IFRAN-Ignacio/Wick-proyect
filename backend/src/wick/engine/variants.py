@@ -125,7 +125,7 @@ def _inactive_paths(cfg: dict[str, Any]) -> list[Path]:
 
 
 def _walk(node: Any, path: Path, found: list[tuple[Path, Any]]) -> None:
-    if _is_multi(node) or isinstance(node, int | float) and not isinstance(node, bool):
+    if _is_multi(node) or (isinstance(node, int | float) and not isinstance(node, bool)):
         found.append((path, node))
         return
     if isinstance(node, dict):
@@ -180,8 +180,10 @@ def discard_reason(cfg: dict[str, Any]) -> str | None:
             a, b = c["left"], c["right"]
             if isinstance(a, str) and isinstance(b, str) and a in inds and b in inds:
                 ia, ib = inds[a], inds[b]
-                if ia["type"] == ib["type"] and ia["source"] == ib["source"] and (
-                    ia["params"] == ib["params"]
+                if (
+                    ia["type"] == ib["type"]
+                    and ia["source"] == ib["source"]
+                    and (ia["params"] == ib["params"])
                 ):
                     return f"{a} y {b} son idénticos (misma serie, nunca se cruzan)"
     return None

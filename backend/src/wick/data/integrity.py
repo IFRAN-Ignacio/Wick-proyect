@@ -44,7 +44,11 @@ def find_gaps(
         missing_tail = (expected_end - last) // step_ms - 1
         if missing_tail > 0 and expected_end <= _now_floor(step_ms):
             gaps.append(
-                Gap(from_ts=last + step_ms, to_ts=last + missing_tail * step_ms, missing=missing_tail)
+                Gap(
+                    from_ts=last + step_ms,
+                    to_ts=last + missing_tail * step_ms,
+                    missing=missing_tail,
+                )
             )
     return gaps
 

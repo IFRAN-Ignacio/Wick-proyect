@@ -10,7 +10,7 @@ from typing import Any
 from wick.data import catalog, store
 from wick.data.parsing import DataError
 from wick.data.sources.base import DataSource
-from wick.data.sources.binance import BinanceSource, now_ms
+from wick.data.sources.binance import BinanceSource, month_bounds_ms, now_ms
 from wick.data.timeframes import TIMEFRAMES
 from wick.jobs.registry import Job
 
@@ -54,9 +54,7 @@ def download(symbol: str, timeframe: str, d_from: date, d_to: date, job: Job) ->
     d_to = min(d_to, today)
     months = months_between(d_from, d_to)
     now = now_ms()
-    months = [
-        (y, m) for (y, m) in months if store.month_bounds_ms(y, m)[0] < now
-    ]
+    months = [(y, m) for (y, m) in months if month_bounds_ms(y, m)[0] < now]
     pending = [(y, m) for (y, m) in months if not store.is_month_complete(symbol, timeframe, y, m)]
     job.total = len(pending)
     job.message = (
@@ -86,7 +84,9 @@ def download(symbol: str, timeframe: str, d_from: date, d_to: date, job: Job) ->
                     job.log.append(f"{k}: Binance no tiene velas para este mes.")
                 else:
                     downloaded.append(k)
-                    job.log.append(f"{k}: {rows} velas ({'ZIP mensual' if src == 'monthly_zip' else 'API REST'}).")
+                    job.log.append(
+                        f"{k}: {rows} velas ({'ZIP mensual' if src == 'monthly_zip' else 'API REST'})."
+                    )
             except Exception as exc:
                 failures.append(f"{key}: {exc}")
                 job.log.append(f"{key}: ERROR {exc}")

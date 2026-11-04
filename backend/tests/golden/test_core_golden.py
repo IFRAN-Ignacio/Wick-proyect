@@ -95,7 +95,9 @@ def test_stop_loss() -> None:
     h = [101, 101, 100, 91]
     lo = [99, 98, 94, 89]
     c = [100, 99, 96, 90]
-    eq, tr, _ = _sim(o, h, lo, c, [True, False, False, False], stop_type=core.STOP_PCT, stop_pct=0.05)
+    eq, tr, _ = _sim(
+        o, h, lo, c, [True, False, False, False], stop_type=core.STOP_PCT, stop_pct=0.05
+    )
     assert tr.shape[0] == 1
     assert tr[0, 1] == 2
     assert tr[0, 3] == pytest.approx(95.0)
@@ -149,7 +151,9 @@ def test_gap_a_traves_del_stop_ejecuta_en_el_open() -> None:
     h = [101, 101, 92, 91]
     lo = [99, 99, 88, 89]
     c = [100, 100, 91, 90]
-    eq, tr, _ = _sim(o, h, lo, c, [True, False, False, False], stop_type=core.STOP_PCT, stop_pct=0.05)
+    eq, tr, _ = _sim(
+        o, h, lo, c, [True, False, False, False], stop_type=core.STOP_PCT, stop_pct=0.05
+    )
     assert tr[0, 3] == pytest.approx(90.0)
     assert eq[-1] == pytest.approx(900.0)
 
@@ -182,7 +186,7 @@ def test_stop_atr_usa_el_atr_de_la_vela_de_senal() -> None:
     h = [101, 101, 96, 96]
     lo = [99, 99, 91, 94]
     c = [100, 100, 95, 95]
-    eq, tr, _ = _sim(
+    _, tr, _ = _sim(
         o,
         h,
         lo,
@@ -203,8 +207,15 @@ def test_tp_por_relacion_riesgo_beneficio() -> None:
     lo = [99, 99, 99]
     c = [100, 100, 100]
     _, tr, _ = _sim(
-        o, h, lo, c, [True, False, False],
-        stop_type=core.STOP_PCT, stop_pct=0.05, tp_type=core.TP_RR, tp_rr=2.0,
+        o,
+        h,
+        lo,
+        c,
+        [True, False, False],
+        stop_type=core.STOP_PCT,
+        stop_pct=0.05,
+        tp_type=core.TP_RR,
+        tp_rr=2.0,
     )
     assert tr[0, 8] == core.EXIT_TP
     assert tr[0, 3] == pytest.approx(110.0)
@@ -214,9 +225,25 @@ def test_step_size_y_minimo_notional() -> None:
     n = 3
     arr = lambda x: np.array(x, dtype=np.float64)  # noqa: E731
     args = (
-        arr([100, 100, 100]), arr([101] * n), arr([99] * n), arr([100] * n),
-        np.array([True, False, False]), np.zeros(n, dtype=np.bool_), np.full(n, np.nan),
-        1000.0, 0.5, True, 0.0, 0.0, 0, 0.0, 0.0, 0, 0.0, 0.0, False,
+        arr([100, 100, 100]),
+        arr([101] * n),
+        arr([99] * n),
+        arr([100] * n),
+        np.array([True, False, False]),
+        np.zeros(n, dtype=np.bool_),
+        np.full(n, np.nan),
+        1000.0,
+        0.5,
+        True,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        0,
+        0.0,
+        0.0,
+        False,
     )
     # stepSize 0.3: 500/100 = 5 → floor(5/0.3)*0.3 = 4.8
     _, tr, _ = core.simulate(*args, 0.3, 0.0)

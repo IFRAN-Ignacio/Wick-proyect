@@ -61,9 +61,7 @@ def parse_kline_csv(raw: bytes, where: str) -> pd.DataFrame:
     expected_rows = len(lines)
     df = pd.read_csv(io.StringIO("\n".join(lines)), header=None, dtype=str)
     if df.shape[1] != KLINE_COLUMNS:
-        raise DataError(
-            f"{where}: se esperaban {KLINE_COLUMNS} columnas y hay {df.shape[1]}."
-        )
+        raise DataError(f"{where}: se esperaban {KLINE_COLUMNS} columnas y hay {df.shape[1]}.")
     if len(df) != expected_rows:
         raise DataError(f"{where}: se leyeron {len(df)} filas de {expected_rows}.")
     return rows_to_frame(df.to_numpy(), where)

@@ -26,7 +26,13 @@ def load_catalog(source: DataSource, refresh: bool = False) -> tuple[list[Symbol
         fetched_at = int(data["fetched_at"])
         if time.time() * 1000 - fetched_at < MAX_AGE_S * 1000:
             return [SymbolInfo(**s) for s in data["symbols"]], fetched_at
-    symbols = source.fetch_symbols()
+    try:
+        symbols = source.fetch_symbols()
+    except Exception:
+        if path.exists():  # sin internet: se usa la caché vieja (con su fecha real)
+            data = json.loads(path.read_text(encoding="utf-8"))
+            return [SymbolInfo(**s) for s in data["symbols"]], int(data["fetched_at"])
+        raise
     fetched_at = int(time.time() * 1000)
     tmp = path.with_suffix(".json.tmp")
     tmp.write_text(

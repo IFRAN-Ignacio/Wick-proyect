@@ -49,8 +49,10 @@ def _is_retryable(exc: BaseException) -> bool:
 
 def month_bounds_ms(year: int, month: int) -> tuple[int, int]:
     start = datetime(year, month, 1, tzinfo=UTC)
-    end = datetime(year + 1, 1, 1, tzinfo=UTC) if month == 12 else datetime(
-        year, month + 1, 1, tzinfo=UTC
+    end = (
+        datetime(year + 1, 1, 1, tzinfo=UTC)
+        if month == 12
+        else datetime(year, month + 1, 1, tzinfo=UTC)
     )
     return int(start.timestamp() * 1000), int(end.timestamp() * 1000)
 

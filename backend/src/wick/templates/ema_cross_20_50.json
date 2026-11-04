@@ -1,0 +1,28 @@
+{
+  "title": "Cruce de EMAs 20/50",
+  "description": "Compra cuando la EMA de 20 cruza hacia arriba la EMA de 50 y vende cuando la cruza hacia abajo. Stop del 3%. Es una de las estrategias más difundidas en internet: se incluye para verificarla con datos reales, no como recomendación.",
+  "config": {
+    "schema_version": 1,
+    "name": "Cruce de EMAs 20/50",
+    "market": "spot",
+    "symbol": "BTCUSDT",
+    "timeframe": "1h",
+    "range": {"from": "2023-01-01", "to": "2025-12-31"},
+    "capital": 1000,
+    "indicators": [
+      {"id": "ema_rapida", "type": "ema", "params": {"length": 20}, "source": "close"},
+      {"id": "ema_lenta", "type": "ema", "params": {"length": 50}, "source": "close"}
+    ],
+    "entry": {
+      "long": {"conditions": [{"left": "ema_rapida", "op": "crosses_above", "right": "ema_lenta"}]},
+      "short": {"conditions": [{"left": "ema_rapida", "op": "crosses_below", "right": "ema_lenta"}]}
+    },
+    "exit": {
+      "stop": {"type": "pct", "pct": 3, "atr_length": 14, "mult": 2},
+      "take_profit": {"type": "none", "pct": 6, "ratio": 2},
+      "on_opposite_signal": true
+    },
+    "sizing": {"mode": "pct_capital", "value": 100, "compound": true},
+    "costs": {"taker": 0.001, "slippage": 0.0005}
+  }
+}

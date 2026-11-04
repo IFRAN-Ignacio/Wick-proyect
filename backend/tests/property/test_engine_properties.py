@@ -24,7 +24,9 @@ def synthetic_market(seed: int, n: int = 400) -> Market:
     high = np.maximum(open_, close) * (1 + np.abs(rng.normal(0, 0.005, n)))
     low = np.minimum(open_, close) * (1 - np.abs(rng.normal(0, 0.005, n)))
     ts = (np.arange(n, dtype=np.int64) * 3_600_000) + 1_700_000_000_000
-    return Market(ts=ts, open=open_, high=high, low=low, close=close, step_size=0.0, min_notional=0.0)
+    return Market(
+        ts=ts, open=open_, high=high, low=low, close=close, step_size=0.0, min_notional=0.0
+    )
 
 
 def ema_cross_cfg(stop: float = 2.0, tp: float = 4.0, size: float = 50.0) -> dict:
@@ -50,7 +52,11 @@ def ema_cross_cfg(stop: float = 2.0, tp: float = 4.0, size: float = 50.0) -> dic
 
 
 @settings(max_examples=25, deadline=None)
-@given(seed=st.integers(0, 10_000), stop=st.sampled_from([1.0, 2.0, 5.0]), size=st.sampled_from([10.0, 50.0, 100.0]))
+@given(
+    seed=st.integers(0, 10_000),
+    stop=st.sampled_from([1.0, 2.0, 5.0]),
+    size=st.sampled_from([10.0, 50.0, 100.0]),
+)
 def test_conservacion_del_dinero(seed: int, stop: float, size: float) -> None:
     m = synthetic_market(seed)
     r = backtest.run(ema_cross_cfg(stop=stop, size=size), m)
@@ -70,10 +76,12 @@ def test_sin_look_ahead(seed: int, cut: int) -> None:
     # Se reemplaza TODO lo posterior a `cut` por otro random walk.
     other = synthetic_market(seed + 99_999)
     scale = m.close[cut] / other.open[cut + 1]
+
     def splice(a: np.ndarray, b: np.ndarray) -> np.ndarray:
         out = a.copy()
         out[cut + 1 :] = b[cut + 1 :] * scale
         return out
+
     m2 = Market(
         ts=m.ts,
         open=splice(m.open, other.open),

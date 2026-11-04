@@ -17,7 +17,9 @@ def _cfg(**over: object) -> StrategyConfig:
             {"id": "fast", "type": "ema", "params": {"length": {"values": [10, 20, 30]}}},
             {"id": "slow", "type": "ema", "params": {"length": {"values": [50, 100]}}},
         ],
-        "entry": {"long": {"conditions": [{"left": "fast", "op": "crosses_above", "right": "slow"}]}},
+        "entry": {
+            "long": {"conditions": [{"left": "fast", "op": "crosses_above", "right": "slow"}]}
+        },
         "exit": {"stop": {"type": "pct", "pct": {"values": [2, 4]}}},
     }
     base.update(over)
@@ -38,7 +40,19 @@ def test_producto_cartesiano_12() -> None:
 
 
 def test_rango_con_paso_decimal() -> None:
-    assert variants.range_values(1, 2, 0.1) == [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0]
+    assert variants.range_values(1, 2, 0.1) == [
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2.0,
+    ]
     assert variants.range_values(10, 30, 10) == [10, 20, 30]
 
 

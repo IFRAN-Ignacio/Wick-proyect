@@ -47,7 +47,7 @@ def _floor_step(qty: float, step: float) -> float:  # pragma: no cover - numba
     if step <= 0.0:
         return qty
     # Pequeña tolerancia para que 0.3/0.1 no se redondee a 0.2 por error de flotante.
-    return np.floor(qty / step + 1e-9) * step
+    return float(np.floor(qty / step + 1e-9) * step)
 
 
 @njit(cache=True)
@@ -73,7 +73,7 @@ def simulate(
     use_exit_signal: bool,
     step_size: float,
     min_notional: float,
-):  # type: ignore[no-untyped-def]  # pragma: no cover - numba
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:  # pragma: no cover - numba
     """Simula la estrategia vela a vela. Devuelve (equity, trades, contadores).
 
     trades: matriz (n_trades, 11) con columnas

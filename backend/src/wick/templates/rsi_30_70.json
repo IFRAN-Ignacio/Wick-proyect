@@ -1,0 +1,27 @@
+{
+  "title": "RSI 30/70",
+  "description": "Compra cuando el RSI de 14 vuelve a subir por encima de 30 (sale de sobreventa) y vende cuando cruza hacia arriba 70 (entra en sobrecompra). Stop del 5%. Se incluye para verificarla con datos reales, no como recomendación.",
+  "config": {
+    "schema_version": 1,
+    "name": "RSI 30/70",
+    "market": "spot",
+    "symbol": "BTCUSDT",
+    "timeframe": "1h",
+    "range": {"from": "2023-01-01", "to": "2025-12-31"},
+    "capital": 1000,
+    "indicators": [
+      {"id": "rsi", "type": "rsi", "params": {"length": 14}, "source": "close"}
+    ],
+    "entry": {
+      "long": {"conditions": [{"left": "rsi", "op": "crosses_above", "right": {"value": 30}}]},
+      "short": {"conditions": [{"left": "rsi", "op": "crosses_above", "right": {"value": 70}}]}
+    },
+    "exit": {
+      "stop": {"type": "pct", "pct": 5, "atr_length": 14, "mult": 2},
+      "take_profit": {"type": "none", "pct": 6, "ratio": 2},
+      "on_opposite_signal": true
+    },
+    "sizing": {"mode": "pct_capital", "value": 100, "compound": true},
+    "costs": {"taker": 0.001, "slippage": 0.0005}
+  }
+}
